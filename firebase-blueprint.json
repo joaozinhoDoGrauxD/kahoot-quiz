@@ -1,0 +1,53 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "System users with roles",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "name": { "type": "string" },
+        "role": { "type": "string", "enum": ["admin", "teacher", "student"] }
+      },
+      "required": ["uid", "name", "role"]
+    },
+    "Quiz": {
+      "title": "Quiz",
+      "description": "Set of questions for a teacher-led session",
+      "type": "object",
+      "properties": {
+        "teacherId": { "type": "string" },
+        "title": { "type": "string" },
+        "questions": { "type": "array" }
+      },
+      "required": ["teacherId", "title", "questions"]
+    },
+    "LiveSession": {
+      "title": "LiveSession",
+      "description": "Active Kahoot-style session",
+      "type": "object",
+      "properties": {
+        "quizId": { "type": "string" },
+        "teacherId": { "type": "string" },
+        "pin": { "type": "string" },
+        "status": { "type": "string", "enum": ["waiting", "active", "finished"] },
+        "currentQuestionIndex": { "type": "number" }
+      },
+      "required": ["quizId", "teacherId", "pin", "status"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profiles"
+    },
+    "/quizzes/{quizId}": {
+      "schema": "Quiz",
+      "description": "Teacher-created quizzes"
+    },
+    "/liveSessions/{sessionId}": {
+      "schema": "LiveSession",
+      "description": "Active session state"
+    }
+  }
+}
