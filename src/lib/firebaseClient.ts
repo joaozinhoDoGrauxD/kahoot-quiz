@@ -1,10 +1,27 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
-import firebaseConfig from '../../firebase-applet-config.json';
+
+// Note: In development in AI Studio, you may need to populate these in 
+// the Secrets panel to avoid exposing them in source files.
+const firebaseConfig = {
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+};
+
+const databaseId = import.meta.env.VITE_FIREBASE_FIRESTORE_DATABASE_ID;
+
+// Help designers/developers find where to put the keys
+if (!firebaseConfig.apiKey) {
+  console.warn("Firebase API Key is missing. Please configure VITE_FIREBASE_API_KEY in your environment/secrets.");
+}
 
 const app = initializeApp(firebaseConfig);
-export const db = getFirestore(app, firebaseConfig.firestoreDatabaseId); /* CRITICAL: The app will break without this line */
+export const db = getFirestore(app, databaseId); /* CRITICAL: The app will break without this line */
 export const auth = getAuth(app);
 
 export enum OperationType {
