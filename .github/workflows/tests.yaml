@@ -1,0 +1,29 @@
+name: Build and Release
+
+on: push
+
+env:
+  GITHUB_TOKEN: ${{ github.token }}
+
+jobs:
+  tests:
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+          - os: windows-latest
+          - os: macos-latest
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+
+      - name: Install node modules
+        run: npm ci
+
+      - name: Run all tests
+        run: npm test
