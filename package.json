@@ -14,15 +14,21 @@
   "dependencies": {
     "@google/genai": "^1.29.0",
     "@tailwindcss/vite": "^4.1.14",
+    "@types/chai": "^5.2.3",
+    "@types/mocha": "^10.0.10",
+    "@types/sinon": "^21.0.1",
     "@vitejs/plugin-react": "^5.0.4",
+    "chai": "^6.2.2",
     "dotenv": "^17.2.3",
     "express": "^4.21.2",
     "firebase": "^12.12.1",
     "firebase-admin": "^13.8.0",
     "lucide-react": "^0.546.0",
+    "mocha": "^11.7.5",
     "motion": "^12.23.24",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "sion": "^0.0.1",
     "vite": "^6.2.0"
   },
   "devDependencies": {
