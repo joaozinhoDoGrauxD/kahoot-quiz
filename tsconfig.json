@@ -9,12 +9,12 @@
       "DOM",
       "DOM.Iterable"
     ],
-    "types": {
+    "types": [
 	"node",
 	"chai",
 	"mocha",
 	"sinon"
-    },
+    ],
     "skipLibCheck": true,
     "moduleResolution": "bundler",
     "isolatedModules": true,
