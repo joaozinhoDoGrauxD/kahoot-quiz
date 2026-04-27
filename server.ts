@@ -20,6 +20,9 @@ async function startServer() {
       appType: "spa",
     });
     app.use(vite.middlewares);
+    app.get('*', (req, res) => {
+      res.sendFile(path.join(__dirname, 'index.html'));
+    });
   } else {
     const distPath = path.join(__dirname, 'dist');
     app.use(express.static(distPath));
