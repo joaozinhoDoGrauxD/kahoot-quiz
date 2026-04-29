@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useState } from 'react';
+import { useState} from 'react';
 import TeacherDashboard from './components/TeacherDashboard';
 import StudentJoin from './components/StudentJoin';
 import Gameplay from './components/Gameplay';
@@ -28,13 +28,15 @@ export default function App() {
           
           <div className="flex flex-col md:flex-row gap-6 justify-center">
             <button 
-              onClick={() => setRole('student')} 
+              onClick={() => setRole('student')}
+              data-testid="student-button" 
               className="bg-[#D4AF37] text-[#0A0A0B] font-black py-6 px-16 rounded-2xl text-2xl uppercase tracking-wider hover:bg-opacity-90 shadow-[0_0_30px_rgba(212,175,55,0.4)] transition-all hover:-translate-y-1"
             >
               Sou Aluno
             </button>
             <button 
-              onClick={() => setRole('teacher')} 
+              onClick={() => setRole('teacher')}
+              data-testid="teacher-button" 
               className="bg-[#141416] text-white border border-[#27272A] font-black py-6 px-16 rounded-2xl text-2xl uppercase tracking-wider hover:bg-[#27272A] shadow-lg transition-all hover:-translate-y-1"
             >
               Sou Professor

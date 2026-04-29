@@ -13,7 +13,8 @@
 	"node",
 	"chai",
 	"mocha",
-	"sinon"
+	"sinon",
+    "selenium-webdriver"
     ],
     "skipLibCheck": true,
     "moduleResolution": "bundler",
