@@ -14,7 +14,6 @@ env:
   VITE_FIREBASE_APP_ID: ${{ secrets.VITE_FIREBASE_APP_ID }}
   NODE_ENV: ${{ secrets.NODE_ENV }}
 
-
 jobs:
   tests:
     strategy:
@@ -34,6 +33,10 @@ jobs:
 
       - name: Install node modules
         run: npm ci
+
+      - name: Enable Safari Driver
+        if: ${{ matrix.os == 'macos-latest' }}
+        run: sudo safaridriver --enable
 
       - name: Run all tests
         run: npm test

@@ -3,6 +3,8 @@ import { expect } from 'chai';
 import Chrome from 'selenium-webdriver/chrome';
 import edge from 'selenium-webdriver/edge';
 import Firefox from 'selenium-webdriver/firefox';
+import safari from 'selenium-webdriver/safari'
+import process from 'node:process'
 
 const BASE_URL = 'https://kahoot-quiz-tests.onrender.com';
 
@@ -11,6 +13,7 @@ function createDriver(browser: string): WebDriver {
     [Browser.CHROME]: () => new Chrome.Options().addArguments('--headless=new'),
     [Browser.EDGE]: () => new edge.Options().addArguments('--headless=new'),
     [Browser.FIREFOX]: () => new Firefox.Options().addArguments('--headless'),
+    [Browser.SAFARI]: () => new safari.Options(),
   };
 
   const builder = new Builder().forBrowser(browser);
@@ -19,6 +22,7 @@ function createDriver(browser: string): WebDriver {
     if (browser === Browser.CHROME) builder.setChromeOptions(browserOptions as Chrome.Options);
     if (browser === Browser.EDGE) builder.setEdgeOptions(browserOptions as edge.Options);
     if (browser === Browser.FIREFOX) builder.setFirefoxOptions(browserOptions as Firefox.Options);
+    if (browser === Browser.SAFARI) builder.setSafariOptions(browserOptions as safari.Options);
   }
 
   return builder.build();
@@ -30,7 +34,7 @@ function runTests(browser: string) {
 
     before(async () => {
       driver = createDriver(browser);
-      await driver.manage().setTimeouts({ implicit: 7000 });
+      await driver.manage().setTimeouts({ implicit: 500 });
     });
 
     after(async () => {
@@ -97,4 +101,5 @@ describe('Regression Tests', () => {
   runTests(Browser.CHROME);
   runTests(Browser.EDGE);
   runTests(Browser.FIREFOX);
+  if (process.platform === 'darwin') runTests(Browser.SAFARI)
 });
