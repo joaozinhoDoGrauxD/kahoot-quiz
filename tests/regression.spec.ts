@@ -6,7 +6,7 @@ import Firefox from 'selenium-webdriver/firefox';
 import safari from 'selenium-webdriver/safari'
 import process from 'node:process'
 
-const BASE_URL = 'https://kahoot-quiz-tests.onrender.com';
+const BASE_URL = 'https://kahoot-quiz-tests.onrender.com/';
 
 async function waitForSite(driver: WebDriver, url: string, retries = 5) {
   for (let i = 0; i < retries; i++) {
@@ -75,13 +75,10 @@ function runTests(browser: string) {
     it('Should show a quiz finalized message after entering a valid PIN and username', async () => {
       const pin = '128209';
       const username = 'Luiz Henrique';
-
       await driver.findElement(By.id("student-button")).click();
-
       const pinInput = await driver.findElement(By.id("pin-input"));
       const nameInput = await driver.findElement(By.id("name-input"));
       const joinButton = await driver.findElement(By.id("join-button"));
-
       await pinInput.sendKeys(pin);
       await nameInput.sendKeys(username);
       await joinButton.click();
@@ -94,13 +91,10 @@ function runTests(browser: string) {
     it('Should show an invalid PIN message', async () => {
       const pin = '111111';
       const username = 'Test User';
-
       await driver.findElement(By.id('student-button')).click();
-
       const pinInput = await driver.findElement(By.id('pin-input'));
       const nameInput = await driver.findElement(By.id('name-input'));
       const joinButton = await driver.findElement(By.id('join-button'));
-
       await pinInput.sendKeys(pin);
       await nameInput.sendKeys(username);
       await joinButton.click();
@@ -109,6 +103,55 @@ function runTests(browser: string) {
       const messageText = await invalidPinMessage.getText();
       expect(messageText).to.equal('PIN inválido ou sessão não encontrada.');
     });
+
+    it('Button Entrar Jogo is disabled in only pin input', async () => {
+      const pin = '1111';
+      await driver.findElement(By.id('student-button')).click();
+      const pinInput = await driver.findElement(By.id('pin-input'));
+      await pinInput.sendKeys(pin);
+      const verifyDisabledWithPin = await driver.findElement(By.id('join-button')).isEnabled();
+      expect(verifyDisabledWithPin).to.be.false;
+    })
+
+    it('Button Entrar Jogo is disabled in only pin username', async () => {
+      const name = "Carlos";
+      await driver.findElement(By.id('student-button')).click();
+      const nameInput = await driver.findElement(By.id('name-input'));
+      await nameInput.sendKeys(name);
+      const verifyDisabledWithName = await driver.findElement(By.id('join-button')).isEnabled(); 
+      expect(verifyDisabledWithName).to.be.false;
+
+    })
+
+    it('Button Entrar Jogo is disabled without username and pin', async () => {
+      await driver.findElement(By.id('student-button')).click();
+      const verifyDisabledWithNothing = await driver.findElement(By.id('join-button')).isEnabled();
+      expect(verifyDisabledWithNothing).to.be.false;
+    })
+
+    it('Button Entrar jogo is enabled', async () => {
+      const pin = '111111';
+      const username = 'Test User';
+      await driver.findElement(By.id('student-button')).click();
+      const pinInput = await driver.findElement(By.id('pin-input'));
+      const nameInput = await driver.findElement(By.id('name-input'));
+      await pinInput.sendKeys(pin);
+      await nameInput.sendKeys(username);
+      const verifyEnable = await driver.findElement(By.id('join-button')).isEnabled();
+      expect(verifyEnable).to.be.true;
+    })
+
+    it('Should back in previous page', async () => {
+      await driver.findElement(By.id('student-button')).click();
+      const heading = await driver.findElement(By.id("student-join-heading"));
+      const headingText = await heading.getText();
+      expect(headingText).to.equal('Entrar no Quiz');
+      await driver.findElement(By.id('voltar')).click()
+      const actualText = await driver.findElement(By.id('textoPrincipal'))
+      const msg = await actualText.getText();
+      expect(msg).to.be.equal("ALGORITMOS LMS GAMIFICADO")
+    })
+    
   });
 }
 
