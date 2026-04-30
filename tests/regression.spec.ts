@@ -1,4 +1,4 @@
-import { By, Builder, Browser, WebDriver } from 'selenium-webdriver';
+import { By, Builder, Browser, WebDriver, until } from 'selenium-webdriver';
 import { expect } from 'chai';
 import Chrome from 'selenium-webdriver/chrome';
 import edge from 'selenium-webdriver/edge';
@@ -7,6 +7,20 @@ import safari from 'selenium-webdriver/safari'
 import process from 'node:process'
 
 const BASE_URL = 'https://kahoot-quiz-tests.onrender.com';
+
+async function waitForSite(driver: WebDriver, url: string, retries = 5) {
+  for (let i = 0; i < retries; i++) {
+    try {
+      await driver.get(url);
+      await driver.wait(until.titleIs('Kahoot Quiz'), 15000);
+      return;
+    } catch {
+      console.log(`Site ainda carregando, tentativa ${i + 1}/${retries}...`);
+      await driver.sleep(5000);
+    }
+  }
+  throw new Error('Site não ficou disponível após todas as tentativas');
+}
 
 function createDriver(browser: string): WebDriver {
   const options = {
@@ -34,7 +48,8 @@ function runTests(browser: string) {
 
     before(async () => {
       driver = createDriver(browser);
-      await driver.manage().setTimeouts({ implicit: 500 });
+      await driver.manage().setTimeouts({ implicit: 10000 });
+      await waitForSite(driver, BASE_URL);
     });
 
     after(async () => {
@@ -42,7 +57,7 @@ function runTests(browser: string) {
     });
 
     beforeEach(async () => {
-      await driver.get(BASE_URL);
+      await waitForSite(driver, BASE_URL);
     });
 
     it('Should have the correct page title', async () => {
