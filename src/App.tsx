@@ -21,7 +21,7 @@ export default function App() {
       <div className="min-h-screen bg-[#0A0A0B] text-[#E4E4E7] flex flex-col items-center justify-center font-sans p-4">
         <div className="max-w-2xl w-full text-center">
           <div className="inline-block bg-[#141416] p-4 px-8 rounded-full border border-[#27272A] mb-8 shadow-2xl">
-            <span className="text-xl text-gray-400 font-bold tracking-[0.2em] uppercase">Algoritmos LMS Gamificado</span> 
+            <span id="textoPrincipal" className="text-xl text-gray-400 font-bold tracking-[0.2em] uppercase">Algoritmos LMS Gamificado</span> 
           </div>
           <h1 className="text-5xl md:text-7xl font-black mb-6 leading-tight max-w-4xl mx-auto">Como você deseja acessar?</h1>
           <p className="text-xl text-gray-500 mb-16">Selecione seu perfil para entrar na plataforma de ensino.</p>
@@ -50,7 +50,7 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[#0A0A0B]">
       <div className="fixed top-0 p-4 z-50">
-        <button onClick={() => setRole(null)} className="text-gray-500 hover:text-white uppercase font-bold text-sm tracking-widest transition-colors flex items-center gap-2">
+        <button id="voltar" onClick={() => setRole(null)} className="text-gray-500 hover:text-white uppercase font-bold text-sm tracking-widest transition-colors flex items-center gap-2">
           ← Voltar para Início
         </button>
       </div>
