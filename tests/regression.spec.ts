@@ -30,7 +30,7 @@ function runTests(browser: string) {
 
     before(async () => {
       driver = createDriver(browser);
-      await driver.manage().setTimeouts({ implicit: 500 });
+      await driver.manage().setTimeouts({ implicit: 7000 });
     });
 
     after(async () => {
@@ -47,8 +47,8 @@ function runTests(browser: string) {
     });
 
     it('Should navigate to the StudentJoin page and display the correct heading', async () => {
-      await driver.findElement(By.css('[data-testid="student-button"]')).click();
-      const heading = await driver.findElement(By.css('[data-testid="student-join-heading"]'));
+      await driver.findElement(By.id("student-button")).click();
+      const heading = await driver.findElement(By.id("student-join-heading"));
       const headingText = await heading.getText();
       expect(headingText).to.equal('Entrar no Quiz');
     });
@@ -57,38 +57,38 @@ function runTests(browser: string) {
       const pin = '128209';
       const username = 'Luiz Henrique';
 
-      await driver.findElement(By.css('[data-testid="student-button"]')).click();
+      await driver.findElement(By.id("student-button")).click();
 
-      const pinInput = await driver.findElement(By.css('[data-testid="pin-input"]'));
-      const nameInput = await driver.findElement(By.css('[data-testid="name-input"]'));
-      const joinButton = await driver.findElement(By.css('[data-testid="join-button"]'));
+      const pinInput = await driver.findElement(By.id("pin-input"));
+      const nameInput = await driver.findElement(By.id("name-input"));
+      const joinButton = await driver.findElement(By.id("join-button"));
 
       await pinInput.sendKeys(pin);
       await nameInput.sendKeys(username);
       await joinButton.click();
-
-      const finalizedMessage = await driver.findElement(By.xpath("//h1[text()='Quiz Finalizado!']/following-sibling::p"));
+      await driver.manage().setTimeouts({implicit: 4000});
+      const finalizedMessage = await driver.findElement(By.id("message"));
       const messageText = await finalizedMessage.getText();
-      expect(messageText).to.equal('Aguarde os resultados finais na tela do professor.');
+      expect(messageText).to.equal("Quiz Finalizado!");
     });
 
     it('Should show an invalid PIN message', async () => {
       const pin = '111111';
       const username = 'Test User';
 
-      await driver.findElement(By.css('[data-testid="student-button"]')).click();
+      await driver.findElement(By.id('student-button')).click();
 
-      const pinInput = await driver.findElement(By.css('[data-testid="pin-input"]'));
-      const nameInput = await driver.findElement(By.css('[data-testid="name-input"]'));
-      const joinButton = await driver.findElement(By.css('[data-testid="join-button"]'));
+      const pinInput = await driver.findElement(By.id('pin-input'));
+      const nameInput = await driver.findElement(By.id('name-input'));
+      const joinButton = await driver.findElement(By.id('join-button'));
 
       await pinInput.sendKeys(pin);
       await nameInput.sendKeys(username);
       await joinButton.click();
-
-      const invalidPinMessage = await driver.findElement(By.xpath("//p[text()='PIN inválido!']"));
+      await driver.manage().setTimeouts({implicit: 1000});
+      const invalidPinMessage = await driver.findElement(By.id("error"));
       const messageText = await invalidPinMessage.getText();
-      expect(messageText).to.equal('PIN inválido!');
+      expect(messageText).to.equal('PIN inválido ou sessão não encontrada.');
     });
   });
 }

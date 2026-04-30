@@ -6,4 +6,5 @@ coverage/
 *.log
 .env*
 !.env.example
+nvim*
 firebase-applet-config.json
