@@ -15,7 +15,6 @@ env:
   VITE_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.VITE_FIREBASE_MESSAGING_SENDER_ID }}
   VITE_FIREBASE_APP_ID: ${{ secrets.VITE_FIREBASE_APP_ID }}
   NODE_ENV: development
-
 jobs:
   tests:
     strategy:
@@ -40,26 +39,24 @@ jobs:
         run: npm ci
 
       - name: Install browsers (Linux)
-        if: runner.os == 'Linux'
+        if: env.ACT == 'true' && runner.os == 'Linux'
         run: |
           # Chrome
           wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
           echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
-
           # Edge
           curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
           echo "deb [arch=amd64] https://packages.microsoft.com/repos/edge stable main" | sudo tee /etc/apt/sources.list.d/microsoft-edge.list
-
           sudo apt-get update
           sudo apt-get install -y google-chrome-stable microsoft-edge-stable firefox
 
       - name: Install browsers (Windows)
-        if: runner.os == 'Windows'
+        if: env.ACT == 'true' && runner.os == 'Windows'
         shell: powershell
         run: choco install googlechrome firefox microsoft-edge -y
 
       - name: Install browsers (macOS)
-        if: runner.os == 'macOS'
+        if: env.ACT == 'true' && runner.os == 'macOS'
         run: brew install --cask google-chrome firefox microsoft-edge
 
       - name: Install firebase-tools
@@ -73,7 +70,7 @@ jobs:
 
       - name: Enable Safari Driver
         if: runner.os == 'macOS'
-        run: safaridriver --enable
+        run: sudo safaridriver --enable
 
       - name: Run tests with Firebase emulators
-        run: npx firebase emulators:exec --project kahoot-quiz-cfbc4 --only firestore,auth 'npm test'
+        run: firebase emulators:exec --project kahoot-quiz-cfbc4 --only firestore,auth 'npm test'
