@@ -1,42 +1,79 @@
 name: Run all tests
-
-on: push
-
+on:
+  push:
+    branches:
+      - tests
 env:
-  GITHUB_TOKEN: ${{ github.token }}
-  GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-  APP_URL: ${{ secrets.APP_URL }}
+  EMAIL: ${{ secrets.EMAIL }}
+  PASSWORD: ${{ secrets.PASSWORD }}
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
   VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
   VITE_FIREBASE_AUTH_DOMAIN: ${{ secrets.VITE_FIREBASE_AUTH_DOMAIN }}
   VITE_FIREBASE_PROJECT_ID: ${{ secrets.VITE_FIREBASE_PROJECT_ID }}
   VITE_FIREBASE_STORAGE_BUCKET: ${{ secrets.VITE_FIREBASE_STORAGE_BUCKET }}
   VITE_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.VITE_FIREBASE_MESSAGING_SENDER_ID }}
   VITE_FIREBASE_APP_ID: ${{ secrets.VITE_FIREBASE_APP_ID }}
-  NODE_ENV: ${{ secrets.NODE_ENV }}
+  NODE_ENV: development
 
 jobs:
   tests:
     strategy:
+      fail-fast: false
       matrix:
-        include:
-          - os: ubuntu-latest
-          - os: windows-latest
-          - os: macos-latest
+        os:
+          - ubuntu-latest
+          - windows-latest
+          - macos-latest
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v6
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v4
         with:
-          node-version: '24'
+          node-version: 24
+          cache: npm
 
-      - name: Install node modules
+      - name: Install dependencies
         run: npm ci
 
-      - name: Enable Safari Driver
-        if: ${{ matrix.os == 'macos-latest' }}
-        run: sudo safaridriver --enable
+      - name: Install browsers (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          # Chrome
+          wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+          echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
 
-      - name: Run all tests
-        run: npm test
+          # Edge
+          curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
+          echo "deb [arch=amd64] https://packages.microsoft.com/repos/edge stable main" | sudo tee /etc/apt/sources.list.d/microsoft-edge.list
+
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable microsoft-edge-stable firefox
+
+      - name: Install browsers (Windows)
+        if: runner.os == 'Windows'
+        shell: powershell
+        run: choco install googlechrome firefox microsoft-edge -y
+
+      - name: Install browsers (macOS)
+        if: runner.os == 'macOS'
+        run: brew install --cask google-chrome firefox microsoft-edge
+
+      - name: Install firebase-tools
+        run: npm install -g firebase-tools
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Enable Safari Driver
+        if: runner.os == 'macOS'
+        run: safaridriver --enable
+
+      - name: Run tests with Firebase emulators
+        run: npx firebase emulators:exec --project kahoot-quiz-cfbc4 --only firestore,auth 'npm test'

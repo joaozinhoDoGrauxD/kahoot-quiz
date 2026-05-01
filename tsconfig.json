@@ -14,7 +14,8 @@
 	"chai",
 	"mocha",
 	"sinon",
-    "selenium-webdriver"
+    "selenium-webdriver",
+    "bcryptjs"
     ],
     "skipLibCheck": true,
     "moduleResolution": "bundler",
