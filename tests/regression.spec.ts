@@ -156,11 +156,7 @@ function runTests(browser: string) {
       expect(headingText).to.equal('Entrar no Quiz');
       await driver.findElement(By.id('voltar')).click();
       const msg = await driver.findElement(By.id('textoPrincipal')).getText();
-      if (process.platform === 'darwin') {
-      expect(msg.toUpperCase()).to.equal('Algoritmos LMS Gamificado');
-      } else {
       expect(msg.toUpperCase()).to.equal('ALGORITMOS LMS GAMIFICADO');
-      }
     });
 
     describe('Teacher', () => {
