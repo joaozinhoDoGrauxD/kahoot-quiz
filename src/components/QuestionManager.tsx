@@ -37,12 +37,14 @@ export default function QuestionManager({ onAddQuestion }: { onAddQuestion: (q: 
     <div className="bg-[#141416] p-6 rounded-xl border border-[#27272A] mt-6">
       <h2 className="text-xl font-bold mb-4 text-[#E4E4E7]">Adicionar Questão</h2>
       <input 
+        id="texto-pergunta"
         className="w-full bg-[#0A0A0B] border border-[#27272A] p-3 rounded-lg mb-4 text-[#E4E4E7] focus:ring-1 focus:ring-[#D4AF37] outline-none"
         placeholder="Texto da Pergunta"
         value={text}
         onChange={(e) => setText(e.target.value)}
       />
       <select 
+        id="options"
         className="w-full bg-[#0A0A0B] border border-[#27272A] p-3 rounded-lg mb-4 text-[#E4E4E7] focus:ring-1 focus:ring-[#D4AF37] outline-none"
         value={type}
         onChange={(e) => {
@@ -51,9 +53,9 @@ export default function QuestionManager({ onAddQuestion }: { onAddQuestion: (q: 
           else if (e.target.value === 'multiple_choice') setCorrectAnswer('A');
         }}
       >
-        <option value="multiple_choice">Múltipla Escolha (5 opções)</option>
-        <option value="true_false">Certo ou Errado</option>
-        <option value="match">Correspondência</option>
+        <option id="multiple" value="multiple_choice">Múltipla Escolha (5 opções)</option>
+        <option id="boolValue" value="true_false">Certo ou Errado</option>
+        <option id="correspondence" value="match">Correspondência</option>
       </select>
 
       {type === 'multiple_choice' && (

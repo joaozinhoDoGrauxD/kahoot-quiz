@@ -192,7 +192,7 @@ export default function TeacherDashboard() {
     return (
       <div className="min-h-screen bg-[#0A0A0B] text-[#E4E4E7] p-8 flex flex-col items-center justify-center">
         <div className="max-w-md w-full bg-[#141416] p-10 rounded-2xl border border-[#27272A] text-center shadow-2xl">
-          <h1 className="text-3xl font-black mb-6">Acesso do Professor</h1>
+          <h1 id="text-professor" className="text-3xl font-black mb-6">Acesso do Professor</h1>
           <p className="text-gray-400 mb-8">Faça login para criar e gerenciar seus quizzes de algoritmos.</p>
           <button 
             onClick={login}
@@ -348,12 +348,12 @@ export default function TeacherDashboard() {
           <h1 className="text-3xl font-serif italic mb-6 text-[#E4E4E7]">Teacher Dashboard</h1>
           <div className="flex gap-4 items-center mb-4">
             <input
+              id="quiz-title-input"
               type="text"
               value={quizTitle}
               onChange={(e) => setQuizTitle(e.target.value)}
               placeholder="Enter Quiz Title..."
               className="flex-1 bg-[#0A0A0B] border border-[#27272A] p-3 rounded-lg text-[#E4E4E7] focus:ring-1 focus:ring-[#D4AF37] outline-none"
-              id="quiz-title-input"
             />
             <button 
               onClick={createQuiz} 
