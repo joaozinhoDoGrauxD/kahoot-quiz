@@ -10,8 +10,8 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const BASE_URL = 'https://kahoot-quiz-tests.onrender.com/';
-const email = process.env.EMAIL!;
-const pass = process.env.PASSWORD!;
+const email = "teste@example.com";
+const pass = "123456";
 
 async function waitForSite(driver: WebDriver, url: string, retries = 5) {
   for (let i = 0; i < retries; i++) {

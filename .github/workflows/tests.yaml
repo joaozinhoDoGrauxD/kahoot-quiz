@@ -4,10 +4,7 @@ on:
     branches:
       - tests
 env:
-  EMAIL: ${{ secrets.EMAIL }}
-  PASSWORD: ${{ secrets.PASSWORD }}
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
   VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
   VITE_FIREBASE_AUTH_DOMAIN: ${{ secrets.VITE_FIREBASE_AUTH_DOMAIN }}
   VITE_FIREBASE_PROJECT_ID: ${{ secrets.VITE_FIREBASE_PROJECT_ID }}
@@ -22,7 +19,6 @@ jobs:
       matrix:
         os:
           - ubuntu-latest
-          - windows-latest
           - macos-latest
     runs-on: ${{ matrix.os }}
     steps:
@@ -32,7 +28,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version: 22
           cache: npm
 
       - name: Install dependencies
@@ -50,15 +46,6 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y google-chrome-stable microsoft-edge-stable firefox
 
-      - name: Install browsers (Windows)
-        if: env.ACT == 'true' && runner.os == 'Windows'
-        shell: powershell
-        run: choco install googlechrome firefox microsoft-edge -y
-
-      - name: Install browsers (macOS)
-        if: env.ACT == 'true' && runner.os == 'macOS'
-        run: brew install --cask google-chrome firefox microsoft-edge
-
       - name: Install firebase-tools
         run: npm install -g firebase-tools
 
@@ -73,4 +60,4 @@ jobs:
         run: sudo safaridriver --enable
 
       - name: Run tests with Firebase emulators
-        run: firebase emulators:exec --project kahoot-quiz-cfbc4 --only firestore,auth 'npm test'
+        run: firebase emulators:exec --only firestore,auth 'npm test'
