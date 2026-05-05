@@ -1,2 +1,1 @@
-import 'global-jsdom/register';
-
+import "global-jsdom/register";

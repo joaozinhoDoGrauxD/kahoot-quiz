@@ -4,18 +4,14 @@
     "experimentalDecorators": true,
     "useDefineForClassFields": false,
     "module": "ESNext",
-    "lib": [
-      "ES2022",
-      "DOM",
-      "DOM.Iterable"
-    ],
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "types": [
-	"node",
-	"chai",
-	"mocha",
-	"sinon",
-    "selenium-webdriver",
-    "bcryptjs"
+      "node",
+      "chai",
+      "mocha",
+      "sinon",
+      "selenium-webdriver",
+      "bcryptjs"
     ],
     "skipLibCheck": true,
     "moduleResolution": "bundler",
@@ -24,9 +20,7 @@
     "allowJs": true,
     "jsx": "react-jsx",
     "paths": {
-      "@/*": [
-        "./*"
-      ]
+      "@/*": ["./*"]
     },
     "allowImportingTsExtensions": true,
     "noEmit": true

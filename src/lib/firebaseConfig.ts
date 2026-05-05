@@ -1,16 +1,16 @@
 export function getFirebaseConfig() {
   // ambiente de teste
-  if (process.env.NODE_ENV === 'test') {
+  if (process.env.NODE_ENV === "test") {
     return {
       firebaseConfig: {
-        apiKey: 'test',
-        authDomain: 'test',
-        projectId: 'demo-test',
-        storageBucket: 'test',
-        messagingSenderId: 'test',
-        appId: 'test',
+        apiKey: "test",
+        authDomain: "test",
+        projectId: "demo-test",
+        storageBucket: "test",
+        messagingSenderId: "test",
+        appId: "test",
       },
-      databaseId: 'test',
+      databaseId: "test",
     };
   }
 

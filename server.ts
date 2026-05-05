@@ -1,7 +1,7 @@
-import express from 'express';
-import { createServer as createViteServer } from 'vite';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import express from "express";
+import { createServer as createViteServer } from "vite";
+import path from "path";
+import { fileURLToPath } from "url";
 
 async function startServer() {
   const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -20,14 +20,14 @@ async function startServer() {
       appType: "spa",
     });
     app.use(vite.middlewares);
-    app.get('*', (req, res) => {
-      res.sendFile(path.join(__dirname, 'index.html'));
+    app.get("*", (req, res) => {
+      res.sendFile(path.join(__dirname, "index.html"));
     });
   } else {
-    const distPath = path.join(__dirname, 'dist');
+    const distPath = path.join(__dirname, "dist");
     app.use(express.static(distPath));
-    app.get('*', (req, res) => {
-      res.sendFile(path.join(distPath, 'index.html'));
+    app.get("*", (req, res) => {
+      res.sendFile(path.join(distPath, "index.html"));
     });
   }
 

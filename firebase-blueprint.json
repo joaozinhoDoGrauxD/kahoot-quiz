@@ -30,7 +30,10 @@
         "quizId": { "type": "string" },
         "teacherId": { "type": "string" },
         "pin": { "type": "string" },
-        "status": { "type": "string", "enum": ["waiting", "active", "finished"] },
+        "status": {
+          "type": "string",
+          "enum": ["waiting", "active", "finished"]
+        },
         "currentQuestionIndex": { "type": "number" }
       },
       "required": ["quizId", "teacherId", "pin", "status"]

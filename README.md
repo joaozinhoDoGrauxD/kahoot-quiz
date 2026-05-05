@@ -18,129 +18,118 @@ Após a análise do projeto e a criação da suíte de testes, identificamos vá
 - **Padrão de Repositório (Desacoplamento do Firebase):** Como notado durante a implementação dos testes, os componentes interagem diretamente com `doc`, `getDoc`, etc. Criar serviços dedicados (ex: `QuizService.ts`, `SessionService.ts`) facilita a criação de stubs/mocks durante testes unitários e encapsula regras de acesso ao banco de dados.
 - **Uso de Roteador (React Router):** O estado de `role` no `App.tsx` (`teacher` | `student`) dificulta o compartilhamento de URLs (ex: um professor mandar o link do painel para si mesmo, ou um aluno entrar com PIN na URL). A adoção de `react-router-dom` para as rotas `/` e `/join/:pin` simplificaria o controle de estado global.
 - **Variáveis de Ambiente Estritas:** Evitar a leitura direta do `import.meta.env` solta no código. Recomenda-se validar as variáveis usando uma biblioteca como Zod para garantir que o projeto não inicie sem as credenciais corretas do Firebase.
-Guia de Instalação e Execução 
+  Guia de Instalação e Execução
 
-Este guia descreve os pré-requisitos e os passos necessários para configurar o ambiente, rodar o aplicativo e executar a suíte de testes. 
+Este guia descreve os pré-requisitos e os passos necessários para configurar o ambiente, rodar o aplicativo e executar a suíte de testes.
 
-1. Pré-requisitos 
+1. Pré-requisitos
 
-Antes de começar, você deve ter instalado em sua máquina: 
+Antes de começar, você deve ter instalado em sua máquina:
 
-Node.js (Versão 18 ou superior). 
+Node.js (Versão 18 ou superior).
 
-npm (Geralmente instalado junto com o Node). 
+npm (Geralmente instalado junto com o Node).
 
-Java JDK 21 ou superior (Necessário para rodar os emuladores do Firebase). 
+Java JDK 21 ou superior (Necessário para rodar os emuladores do Firebase).
 
-Google Chrome, Microsoft Edge e Firefox (Para os testes de regressão multibrowser). 
+Google Chrome, Microsoft Edge e Firefox (Para os testes de regressão multibrowser).
 
-2. Instalação de Ferramentas Globais 
+2. Instalação de Ferramentas Globais
 
-Abra o seu terminal (PowerShell ou CMD) e instale o CLI do Firebase globalmente: 
+Abra o seu terminal (PowerShell ou CMD) e instale o CLI do Firebase globalmente:
 
-Bash 
+Bash
 
-npm install -g firebase-tools 
- 
+npm install -g firebase-tools
 
-3. Configuração do Projeto 
+3. Configuração do Projeto
 
-Dentro da pasta do projeto kahoot-quiz, instale as dependências locais: 
+Dentro da pasta do projeto kahoot-quiz, instale as dependências locais:
 
-Bash 
+Bash
 
-npm install 
- 
+npm install
 
-4. Como Rodar o Aplicativo (Modo Desenvolvimento) 
+4. Como Rodar o Aplicativo (Modo Desenvolvimento)
 
-Para visualizar o projeto no navegador, utilize o comando: 
+Para visualizar o projeto no navegador, utilize o comando:
 
-Bash 
+Bash
 
-npm run dev 
- 
+npm run dev
 
-O aplicativo estará disponível em http://localhost:5173 (ou na porta indicada no terminal). 
+O aplicativo estará disponível em http://localhost:5173 (ou na porta indicada no terminal).
 
- 
+5. Como Rodar os Testes (Obrigatório)
 
-5. Como Rodar os Testes (Obrigatório) 
+Para que os testes funcionem corretamente, você deve seguir esta ordem exata utilizando dois terminais:
 
-Para que os testes funcionem corretamente, você deve seguir esta ordem exata utilizando dois terminais: 
+Passo A: Iniciar os Emuladores do Firebase
 
-Passo A: Iniciar os Emuladores do Firebase 
+Em um terminal, execute o servidor local do Firebase. Isso evita erros de conexão com o banco de dados real durante os testes.
 
-Em um terminal, execute o servidor local do Firebase. Isso evita erros de conexão com o banco de dados real durante os testes. 
+Bash
 
-Bash 
+npx firebase emulators:start
 
-npx firebase emulators:start 
- 
+Mantenha este terminal aberto e rodando.
 
-Mantenha este terminal aberto e rodando. 
+Passo B: Executar a Suíte de Testes
 
-Passo B: Executar a Suíte de Testes 
+Com os emuladores ativos, abra um segundo terminal e execute:
 
-Com os emuladores ativos, abra um segundo terminal e execute: 
+Bash
 
-Bash 
+npm test
 
-npm test 
- 
+Este comando irá disparar:
 
-Este comando irá disparar: 
+Testes Unitários (Hooks): Validação da lógica do useLiveSession.
 
-Testes Unitários (Hooks): Validação da lógica do useLiveSession. 
+Testes de Integração: Verificação das variáveis de ambiente e configuração do Firebase.
 
-Testes de Integração: Verificação das variáveis de ambiente e configuração do Firebase. 
+Testes de Componentes: Verificação da renderização e comportamento da interface.
 
-Testes de Componentes: Verificação da renderização e comportamento da interface. 
+Testes de Regressão (Selenium): Automação visual nos navegadores Chrome, Edge e Firefox.
 
-Testes de Regressão (Selenium): Automação visual nos navegadores Chrome, Edge e Firefox. 
+6. Resumo de Comandos Úteis
 
- 
+Objetivo
 
-6. Resumo de Comandos Úteis 
+Comando
 
-Objetivo 
+Instalar dependências
 
-Comando 
+npm install
 
-Instalar dependências 
+Rodar App
 
-npm install 
+npm run dev
 
-Rodar App 
+Ligar Emuladores
 
-npm run dev 
+npx firebase emulators:start
 
-Ligar Emuladores 
+Rodar Testes
 
-npx firebase emulators:start 
+npm test
 
-Rodar Testes 
+Dicas de Resolução de Problemas
 
-npm test 
+Erro de Java: Se o comando firebase emulators:start falhar, verifique se o Java 21 está no seu PATH do sistema.
 
- 
+Erro de Porta: Certifique-se de que as portas 8080, 9099 e 4000 não estão sendo usadas por outros programas.
 
-Dicas de Resolução de Problemas 
+Navegadores: Os testes de regressão tentam abrir o Chrome, Firefox e Edge. Certifique-se de que eles estão instalados para evitar falhas no Selenium.
 
-Erro de Java: Se o comando firebase emulators:start falhar, verifique se o Java 21 está no seu PATH do sistema. 
-
-Erro de Porta: Certifique-se de que as portas 8080, 9099 e 4000 não estão sendo usadas por outros programas. 
-
-Navegadores: Os testes de regressão tentam abrir o Chrome, Firefox e Edge. Certifique-se de que eles estão instalados para evitar falhas no Selenium. 
-
- //
+//
 
 Relatório Técnico de Melhorias e Escalabilidade
 
 Projeto: FinMath LMS (Plataforma de Quizzes de Matemática Financeira)
 
 1. Experiência do Usuário (UX) e Acessibilidade (A11y)
-Gestão de Estados de Latência (Loading States):
+   Gestão de Estados de Latência (Loading States):
 
 Diagnóstico: Durante a execução do hook useLiveSession, o estado inicial de loading: true causa um vácuo de informação na interface.
 
@@ -159,7 +148,7 @@ Diagnóstico: O arquivo index.html carece de definições de idioma e rótulos s
 Solução: Definir <html lang="pt-BR"> e aplicar aria-live em mensagens de erro para que usuários com deficiência visual recebam notificações em tempo real sobre falhas de PIN ou conexão.
 
 2. Arquitetura de Software e Segurança (Hardening)
-Refatoração das Security Rules (Firestore):
+   Refatoração das Security Rules (Firestore):
 
 Diagnóstico: As regras atuais permitem acesso total até 2026, representando um risco crítico de integridade de dados.
 
@@ -178,7 +167,7 @@ Diagnóstico: A aplicação consome objetos do Firestore sem validar o schema, o
 Solução: Criar schemas de validação para a interface LiveSession e Quiz. Toda resposta da API deve passar pelo parser antes de chegar ao estado do React, garantindo "Type Safety" em tempo de execução.
 
 3. Qualidade e Ciclo de Vida (DevOps/QA)
-Pipeline de CI/CD (GitHub Actions):
+   Pipeline de CI/CD (GitHub Actions):
 
 Diagnóstico: Atualmente, a suite de 51 testes depende de execução manual no ambiente local do desenvolvedor.
 
