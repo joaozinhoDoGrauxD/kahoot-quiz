@@ -1,13 +1,19 @@
-import { initializeApp } from 'firebase/app';
+import { initializeApp, getApps, getApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
-import configProvider from './firebaseConfig';
+import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
+import { getFirebaseConfig } from './firebaseConfig';
 
-const { firebaseConfig, databaseId } = configProvider.getFirebaseConfig();
+const { firebaseConfig, databaseId } = getFirebaseConfig();
+const app = getApps().length === 0
+  ? initializeApp(firebaseConfig)
+  : getApp();
 
-const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app, databaseId);
 export const auth = getAuth(app);
+
+if (process.env.NODE_ENV === 'test') {
+  connectFirestoreEmulator(db, 'localhost', 8080);
+}
 
 export enum OperationType {
   CREATE = 'create',
