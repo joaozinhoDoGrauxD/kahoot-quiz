@@ -28,7 +28,7 @@ Antes de começar, você deve ter instalado em sua máquina:
 
 Node.js (Versão 18 ou superior).
 
-npm (Geralmente instalado junto com o Node).
+bun (Geralmente instalado junto com o Node).
 
 Java JDK 21 ou superior (Necessário para rodar os emuladores do Firebase).
 
@@ -40,7 +40,7 @@ Abra o seu terminal (PowerShell ou CMD) e instale o CLI do Firebase globalmente:
 
 Bash
 
-npm install -g firebase-tools
+bun install -g firebase-tools
 
 3. Configuração do Projeto
 
@@ -48,7 +48,7 @@ Dentro da pasta do projeto kahoot-quiz, instale as dependências locais:
 
 Bash
 
-npm install
+bun install
 
 4. Como Rodar o Aplicativo (Modo Desenvolvimento)
 
@@ -56,7 +56,7 @@ Para visualizar o projeto no navegador, utilize o comando:
 
 Bash
 
-npm run dev
+bun run dev
 
 O aplicativo estará disponível em http://localhost:5173 (ou na porta indicada no terminal).
 
@@ -70,7 +70,7 @@ Em um terminal, execute o servidor local do Firebase. Isso evita erros de conex�
 
 Bash
 
-npx firebase emulators:start
+bunx firebase emulators:start
 
 Mantenha este terminal aberto e rodando.
 
@@ -80,7 +80,7 @@ Com os emuladores ativos, abra um segundo terminal e execute:
 
 Bash
 
-npm test
+bun test
 
 Este comando irá disparar:
 
@@ -100,19 +100,19 @@ Comando
 
 Instalar dependências
 
-npm install
+bun install
 
 Rodar App
 
-npm run dev
+bun run dev
 
 Ligar Emuladores
 
-npx firebase emulators:start
+bunx firebase emulators:start
 
 Rodar Testes
 
-npm test
+bun test
 
 Dicas de Resolução de Problemas
 
@@ -191,14 +191,14 @@ Passo a Passo de Configuração
 Dependências:
 
 Bash
-npm install
-npm install -g firebase-tools
+bun install
+bun install -g firebase-tools
 Preparação do Ambiente:
 
 Certifique-se de que o arquivo .env.example foi configurado para o ambiente de testes.
 
 Execução dos Testes (Fluxo de 2 Terminais):
 
-Terminal 1 (Emulação): npx firebase emulators:start (Aguarde a mensagem "All emulators ready!").
+Terminal 1 (Emulação): bunx firebase emulators:start (Aguarde a mensagem "All emulators ready!").
 
-Terminal 2 (QA): npm test (Executa as 51 validações de Unitário, Integração, Componente e Regressão).
+Terminal 2 (QA): bun test (Executa as 51 validações de Unitário, Integração, Componente e Regressão).

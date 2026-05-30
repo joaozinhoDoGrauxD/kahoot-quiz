@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "test": "mocha",
-    "dev": "tsx server.ts",
-    "start": "node server.ts",
+    "dev": "bun server.ts",
+    "start": "bun server.ts",
     "build": "vite build",
     "preview": "vite preview",
     "clean": "rm -rf dist",
